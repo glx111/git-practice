@@ -43,9 +43,10 @@ class DiaryBackupAgent:
         """Agent 的手：执行命令并观察结果"""
         result = subprocess.run(
             command, shell=True, cwd=self.repo,
-            capture_output=True, text=True
+            capture_output=True, text=True,
+            encoding='utf-8', errors='replace'  # 解决 Windows GBK 问题
         )
-        return result.returncode, result.stdout + result.stderr
+        return result.returncode, (result.stdout or '') + (result.stderr or '')
 
     # ===== Agent 的四个步骤 =====
 
